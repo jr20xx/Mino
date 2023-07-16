@@ -12,7 +12,7 @@ if ($_SESSION["s_user"] !== null && $_SESSION["s_user_id"] !== null)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../assets/sweetalert2/sweetalert2.min.css"></script>
+    <link href="../assets/sweetalert2/sweetalert2.min.css" rel="stylesheet">
     <link href="../mino/css/styles.css" rel="stylesheet">
     <title>Mino - Login</title>
 </head>
