@@ -90,7 +90,7 @@ if ($_SESSION["s_user"] !== null && $_SESSION["s_user_id"] !== null)
                 <form class="modal-body p-4 card-body" action="" method="post" id="cud_form">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="cud_username" placeholder="Username" required>
-                        <label for="cud_username">Username for your account</label>
+                        <label for="cud_username">Username for the new account</label>
                     </div>
                     <div class="input-group mb-3">
                         <div class="form-floating">
