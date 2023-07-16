@@ -50,8 +50,8 @@ if ($_SESSION["s_user"] !== null && $_SESSION["s_user_id"] !== null)
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title text-center fw-semibold">Login to Mino</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">Login to edit your saved notes or to save some
+                    <h5 class="card-title text-center fw-semibold unselectable-text">Login to Mino</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary unselectable-text">Login to edit your saved notes or to save some
                     </h6>
 
                     <form action="" method="post" id="login_form">
@@ -73,7 +73,7 @@ if ($_SESSION["s_user"] !== null && $_SESSION["s_user_id"] !== null)
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center">
-                            <a id="cud_triggerer" class="card-link" data-bs-toggle="modal"
+                            <a id="cud_triggerer" class="card-link unselectable-text" data-bs-toggle="modal"
                                 data-bs-target="#create_user_dialog">Create account</a>
                             <button type="submit" class="btn btn-outline-success fw-semibold">Login</button>
                         </div>
