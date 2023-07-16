@@ -6,6 +6,7 @@ $connection = $helper->connect();
 $username = (isset($_POST['username'])) ? $_POST['username'] : '';
 $password = hash("sha512", (isset($_POST['password'])) ? $_POST['password'] : '');
 $operation_type = (isset($_POST['operation_type'])) ? $_POST['operation_type'] : '';
+$resultCode = null;
 
 switch ($operation_type) {
     case 0: //CREATE
@@ -15,9 +16,9 @@ switch ($operation_type) {
             $result->bindParam(':username', $username);
             $result->bindParam(':password', $password);
             $result->execute();
-            echo $result->rowCount() >= 1 ? 201 : 400;
+            $resultCode = $result->rowCount() >= 1 ? 201 : null;
         } else
-            echo 400;
+            $resultCode = 400;
         break;
     case 1: //READ
         break;
@@ -26,4 +27,7 @@ switch ($operation_type) {
     case 3: //DELETE
         break;
 }
+
+echo $resultCode;
+$connection = null;
 ?>

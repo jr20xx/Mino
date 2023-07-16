@@ -57,6 +57,17 @@ $(() => {
                     }
                     else
                         window.location.href = "../mino/notes.php";
+                },
+                error: () => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server error!',
+                        toast: true,
+                        position: 'bottom',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                    });
                 }
             });
         }
@@ -144,7 +155,7 @@ $(() => {
                         });
                         create_user_dialog.modal("hide");
                     }
-                    else {
+                    else if (response == 400) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Username already in use',
@@ -155,6 +166,28 @@ $(() => {
                             showConfirmButton: false,
                         });
                     }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Something went wrong...',
+                            toast: true,
+                            position: 'bottom',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: () => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server error!',
+                        toast: true,
+                        position: 'bottom',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                    });
                 }
             });
         }
