@@ -5,9 +5,10 @@ $(() => {
     let currentNoteTitle = "", currentNoteBody = "",
         note_writer_modal = $("#note_writer_modal"), note_writer_form = $("#note_writer_form"),
         notes_list_container = $("#notes_list_container"), note_viewer_container = $("#note_viewer_container"), notes_list = $("#notes_list"),
-        note_viewer_timestamp = $("#note_viewer_timestamp"), note_viewer_title = $("#note_viewer_title"), note_viewer_body = $("#note_viewer_body"),
-        note_viewer_save_button = $("#note_viewer_save_button"),
-        actions_checker_dialog = $("#actions_checker_dialog"), acd_title = $("#actions_checker_dialog_title"), acd_message = $("#actions_checker_dialog_message"), acd_ok_button = $("#actions_checker_dialog_ok_btn");
+        note_viewer_timestamp = $("#note_viewer_timestamp"), note_viewer_title = $("#note_viewer_title"), note_viewer_body = $("#note_viewer_body"), note_viewer_save_button = $("#note_viewer_save_button"),
+        actions_checker_dialog = $("#actions_checker_dialog"), acd_title = $("#actions_checker_dialog_title"), acd_message = $("#actions_checker_dialog_message"), acd_ok_button = $("#actions_checker_dialog_ok_btn"),
+        password_changer_dialog = $("#password_changer_dialog"), pcd_form = $("#pcd_form"),
+        pcd_op = $("#pcd_old_password"), pcd_np = $("#pcd_new_password"), pcd_np_r = $("#pcd_new_r_password"), pcd_ok_button = $("#password_changer_dialog_ok_btn");
 
     note_viewer_container.hide();
 
@@ -51,7 +52,7 @@ $(() => {
         acd_ok_button.attr('data-action', 'logout');
     });
 
-    $("#note_adder_ok_btn").click(() =>{
+    $("#note_adder_ok_btn").click(() => {
         note_writer_form.trigger("submit");
     });
     note_writer_form.submit((e) => {
@@ -135,6 +136,108 @@ $(() => {
     $('#note_viewer_title, #note_viewer_body').on('input', function () {
         let currentTitle = note_viewer_title.val().trim(), currentBody = note_viewer_body.val().trim();
         disableSaveButton((currentTitle === currentNoteTitle && currentBody === currentNoteBody) || currentTitle.length == 0 || currentBody.length == 0);
+    });
+
+    $("#password_changer_button").click(() => {
+        pcd_form.trigger("reset");
+    });
+
+    $("#destroy_account_button").click(() => {
+        alert("Destroy!!!");
+    });
+
+    $('#pcd_old_password_revealer, #pcd_new_password_revealer, #pcd_new_r_password_revealer').click(function () {
+        inputField = $(this).siblings().find('input');
+        if (inputField.attr("type") === "password") {
+            inputField.attr("type", "text");
+            $(this).find("svg").html('<use xlink:href="#hide" />');
+        }
+        else {
+            inputField.attr("type", "password");
+            $(this).find("svg").html('<use xlink:href="#show" />');
+        }
+    });
+
+    pcd_ok_button.click(() => {
+        pcd_form.trigger("submit");
+    });
+
+    pcd_form.submit((e) => {
+        e.preventDefault();
+        let old_pass = pcd_op.val().trim(), new_pass = pcd_np.val().trim(), new_r_pass = pcd_np_r.val().trim();
+        if (old_pass.length < 4 || new_pass.length < 4 || new_r_pass.length < 4)
+            Swal.fire({
+                icon: 'error',
+                title: 'All the passwords must contain at least 4 characters',
+                toast: true,
+                position: 'bottom',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        else if (new_pass !== new_r_pass)
+            Swal.fire({
+                icon: 'error',
+                title: "The new password and its repetition must have the same value",
+                toast: true,
+                position: 'bottom',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        else if (new_pass === old_pass)
+            Swal.fire({
+                icon: 'error',
+                title: "The new password and the old one can not be the same",
+                toast: true,
+                position: 'bottom',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+        else {
+            $.ajax({
+                url: '../mino/users_table_handler.php',
+                method: 'POST',
+                dataType: "json",
+                data: { password: old_pass, newPassword: new_pass, operation_type: 2 },
+                success: (response) => {
+                    if (response == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: "Password changed!",
+                            toast: true,
+                            position: 'bottom',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                        });
+                        password_changer_dialog.modal("hide");
+                    }
+                    else
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Please, verify the value of your current password",
+                            toast: true,
+                            position: 'bottom',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                        });
+                },
+                error: () => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Server error!",
+                        toast: true,
+                        position: 'bottom',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                    });
+                }
+            });
+        }
     });
 
     function addNote(id, title, body, timestamp, isActive = false) {

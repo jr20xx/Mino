@@ -39,12 +39,10 @@ class DbHelper
             $result = $pdo->prepare($query);
             $result->bindParam(':username', $username);
             $result->execute();
-            if ($result->rowCount() >= 1)
-                return true;
+            return $result->rowCount() >= 1;
         } catch (Exception $e) {
             die("Fatal Error: " . $e->getMessage());
         }
-        return false;
     }
 }
 ?>

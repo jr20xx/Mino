@@ -37,6 +37,14 @@ if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
             <path
                 d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
         </symbol>
+        <symbol id="show" viewBox="0 0 24 24">
+            <path
+                d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" />
+        </symbol>
+        <symbol id="hide" viewBox="0 0 24 24">
+            <path
+                d="M11.83,9L15,12.16C15,12.11 15,12.05 15,12A3,3 0 0,0 12,9C11.94,9 11.89,9 11.83,9M7.53,9.8L9.08,11.35C9.03,11.56 9,11.77 9,12A3,3 0 0,0 12,15C12.22,15 12.44,14.97 12.65,14.92L14.2,16.47C13.53,16.8 12.79,17 12,17A5,5 0 0,1 7,12C7,11.21 7.2,10.47 7.53,9.8M2,4.27L4.28,6.55L4.73,7C3.08,8.3 1.78,10 1,12C2.73,16.39 7,19.5 12,19.5C13.55,19.5 15.03,19.2 16.38,18.66L16.81,19.08L19.73,22L21,20.73L3.27,3M12,7A5,5 0 0,1 17,12C17,12.64 16.87,13.26 16.64,13.82L19.57,16.75C21.07,15.5 22.27,13.86 23,12C21.27,7.61 17,4.5 12,4.5C10.6,4.5 9.26,4.75 8,5.2L10.17,7.35C10.74,7.13 11.35,7 12,7Z" />
+        </symbol>
     </svg>
 
     <main class="d-flex">
@@ -50,7 +58,8 @@ if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
                         <li id="note_adder_button" class="dropdown-item unselectable-text" data-bs-toggle="modal"
                             data-bs-target="#note_writer_modal">New note...</li>
                         <li class="dropdown-item unselectable-text" id="theme_toggle">Change theme</li>
-                        <li class="dropdown-item unselectable-text">Profile</li>
+                        <li id="password_changer_button" class="dropdown-item unselectable-text" data-bs-toggle="modal"
+                            data-bs-target="#password_changer_dialog">Change password</li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -171,6 +180,65 @@ if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
                 <div class="modal-footer flex-nowrap p-0">
                     <button id="actions_checker_dialog_ok_btn" type="button"
                         class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Ok</strong></button>
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
+                        data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="password_changer_dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-3 shadow card">
+                <div class="card-header modal-header p-2">
+                    <p class="text-center unselectable-text mb-0">Change password</p>
+                    <button id="destroy_account_button" class="btn btn-outline-danger mb-0" type="button">
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#delete" />
+                        </svg>
+                    </button>
+                </div>
+                <form class="modal-body p-4 card-body" action="" method="post" id="pcd_form">
+                    <div class="input-group mb-3">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="pcd_old_password" placeholder="Old password"
+                                required>
+                            <label for="pcd_old_password">Old password</label>
+                        </div>
+                        <button id="pcd_old_password_revealer" class="btn btn-outline-secondary" type="button">
+                            <svg class="bi img-fluid object-fit-cover h-100 w-100" width="32" height="32">
+                                <use xlink:href="#show" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="pcd_new_password" placeholder="New password"
+                                required>
+                            <label for="pcd_new_password">New password</label>
+                        </div>
+                        <button id="pcd_new_password_revealer" class="btn btn-outline-secondary" type="button">
+                            <svg class="bi img-fluid object-fit-cover h-100 w-100" width="32" height="32">
+                                <use xlink:href="#show" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="pcd_new_r_password" placeholder="Password"
+                                required>
+                            <label for="pcd_new_r_password">Repeat your new password</label>
+                        </div>
+                        <button id="pcd_new_r_password_revealer" class="btn btn-outline-secondary" type="button">
+                            <svg class="bi img-fluid object-fit-cover h-100 w-100" width="32" height="32">
+                                <use xlink:href="#show" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="modal-footer flex-nowrap p-0">
+                    <button class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"
+                        id="password_changer_dialog_ok_btn" type="submit"><strong>Change password</strong></button>
                     <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
                         data-bs-dismiss="modal">Cancel</button>
                 </div>
