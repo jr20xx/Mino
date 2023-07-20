@@ -143,7 +143,9 @@ $(() => {
     });
 
     $("#destroy_account_button").click(() => {
-        alert("Destroy!!!");
+        acd_title.html("<strong>Warning!</strong>");
+        acd_message.html("Your account and all your notes will be erased. <strong>This action can not be undone!</strong>");
+        acd_ok_button.attr('data-action', 'warn_account_removal');
     });
 
     $('#pcd_old_password_revealer, #pcd_new_password_revealer, #pcd_new_r_password_revealer').click(function () {
@@ -335,6 +337,55 @@ $(() => {
                 notes_list.find('[note-id="' + acd_ok_button.attr('note-id') + '"]').click();
                 acd_ok_button.removeAttr('note-id');
                 actions_checker_dialog.modal("hide");
+                break;
+            case 'warn_account_removal':
+                acd_title.html("<strong>Warning!</strong>");
+                acd_message.html("Are you completely sure that you want to delete your account and all its related notes? <strong>This action can not be undone!</strong>");
+                acd_ok_button.attr('data-action', 'remove_account');
+                actions_checker_dialog.modal('show');
+                break;
+            case 'remove_account':
+                $.ajax({
+                    url: '../mino/users_table_handler.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { operation_type: 3 },
+                    success: (response) => {
+                        if (response == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: "Your account was successfuly removed!",
+                                toast: true,
+                                position: 'bottom',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            });
+                            window.location.href = "../index.php";
+                        }
+                        else
+                            Swal.fire({
+                                icon: 'error',
+                                title: "Your account could not be removed",
+                                toast: true,
+                                position: 'bottom',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            });
+                    },
+                    error: () => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Server error!",
+                            toast: true,
+                            position: 'bottom',
+                            timer: 3000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                        });
+                    }
+                });
                 break;
         }
     });

@@ -34,7 +34,7 @@ $(() => {
 
     $('#login_form').submit((e) => {
         e.preventDefault();
-        let username = login_username_field.val().trim(), password = login_password_field.val().trim();
+        let username = login_username_field.val().toLowerCase().trim(), password = login_password_field.val().trim();
 
         if (username.length == 0 || password.length == 0) {
             Swal.fire({
@@ -101,7 +101,7 @@ $(() => {
     });
     cud_form.submit((e) => {
         e.preventDefault();
-        let username = cud_username_field.val().trim(),
+        let username = cud_username_field.val().toLowerCase().trim(),
             password = cud_pass_field.val().trim(),
             r_password = cud_r_pass_field.val().trim();
         if (username.length == 0 || password.length == 0 || r_password == 0) {

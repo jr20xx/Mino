@@ -169,30 +169,13 @@ if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
         </div>
     </div>
 
-    <div class="modal fade" id="actions_checker_dialog" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content rounded-3 shadow">
-                <div class="modal-body p-4 text-center">
-                    <h5 id="actions_checker_dialog_title" class="mb-0 unselectable-text" style="padding-bottom: 10px;">
-                    </h5>
-                    <p id="actions_checker_dialog_message" class="mb-0 unselectable-text"></p>
-                </div>
-                <div class="modal-footer flex-nowrap p-0">
-                    <button id="actions_checker_dialog_ok_btn" type="button"
-                        class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Ok</strong></button>
-                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
-                        data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="password_changer_dialog" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content rounded-3 shadow card">
                 <div class="card-header modal-header p-2">
                     <p class="text-center unselectable-text mb-0">Change password</p>
-                    <button id="destroy_account_button" class="btn btn-outline-danger mb-0" type="button">
+                    <button id="destroy_account_button" class="btn btn-outline-danger mb-0" type="button"
+                        data-bs-toggle="modal" data-bs-target="#actions_checker_dialog">
                         <svg class="bi" width="24" height="24">
                             <use xlink:href="#delete" />
                         </svg>
@@ -239,6 +222,24 @@ if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
                 <div class="modal-footer flex-nowrap p-0">
                     <button class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"
                         id="password_changer_dialog_ok_btn" type="submit"><strong>Change password</strong></button>
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
+                        data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="actions_checker_dialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-body p-4 text-center">
+                    <h5 id="actions_checker_dialog_title" class="mb-0 unselectable-text" style="padding-bottom: 10px;">
+                    </h5>
+                    <p id="actions_checker_dialog_message" class="mb-0 unselectable-text"></p>
+                </div>
+                <div class="modal-footer flex-nowrap p-0">
+                    <button id="actions_checker_dialog_ok_btn" type="button"
+                        class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Ok</strong></button>
                     <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
                         data-bs-dismiss="modal">Cancel</button>
                 </div>

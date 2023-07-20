@@ -35,6 +35,16 @@ switch ($operation_type) {
         $resultCode = $result->rowCount() >= 1 ? 200 : null;
         break;
     case 3: //DELETE
+        $query = "DELETE FROM USERS WHERE ID=" . $user_id . ";";
+        $result = $connection->prepare($query);
+        $result->execute();
+        if ($result->rowCount() >= 1) {
+            unset($_SESSION["s_user"]);
+            unset($_SESSION["s_user_id"]);
+            session_destroy();
+            echo 200;
+            exit();
+        }
         break;
 }
 
