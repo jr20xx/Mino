@@ -43,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo $helper->removeNote($note_id, $user_id);
             break;
         default:
-            echo "Action not implemented on this server";
+            echo 501;
     }
 } else {
-    echo "Request type not allowed in this server";
+    echo 405;
 }
 ?>
