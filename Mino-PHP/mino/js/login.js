@@ -44,10 +44,10 @@ $(() => {
             return false;
         } else {
             $.ajax({
-                url: "../mino/user_check.php",
+                url: "../mino/responder.php",
                 type: "POST",
-                datatype: "json",
-                data: { user: username, password: password },
+                datatype: "application/json",
+                data: { username: username, password: password, action: 'authenticate' },
                 success: (data) => {
                     if (data == null) {
                         Swal.fire({
@@ -139,9 +139,10 @@ $(() => {
         }
         else {
             $.ajax({
-                url: '../mino/users_table_handler.php',
+                url: 'responder.php',
                 method: 'POST',
-                data: { username: username, password: password, operation_type: 0 },
+                datatype: 'json',
+                data: { username: username, password: password, action: 'add_user' },
                 success: (response) => {
                     if (response == 201) {
                         Swal.fire({

@@ -5,6 +5,6 @@ if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
 else
     header("Location: /mino/notes.php");
 require_once 'mino/db_helper.php';
-$connector = new DbHelper();
-$connector->createDatabase();
+$helper = DbHelper::getInstance();
+$helper->createDatabase();
 ?>

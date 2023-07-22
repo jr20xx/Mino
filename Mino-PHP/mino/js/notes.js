@@ -13,9 +13,10 @@ $(() => {
     note_viewer_container.hide();
 
     $.ajax({
-        url: "../mino/notes_table_handler.php",
+        url: "responder.php",
         type: "POST",
-        data: { operation_type: 1 },
+        dataType: 'json',
+        data: { action: 'get_notes' },
         success: (data) => {
             $.each(data, (_, item) => {
                 addNote(item.ID, item.TITLE, item.BODY, item.TIME_STAMP);
@@ -60,10 +61,10 @@ $(() => {
         var noteTitle = $('#note_writer_title').val().trim(), noteBody = $('#note_writer_body').val().trim();
         if (noteTitle.length > 0 && noteBody.length > 0) {
             $.ajax({
-                url: "../mino/notes_table_handler.php",
+                url: "responder.php",
                 type: "POST",
                 dataType: "json",
-                data: { title: noteTitle, body: noteBody, operation_type: 0 },
+                data: { title: noteTitle, body: noteBody, action: 'create_note' },
                 success: (data) => {
                     addNote(data[0].ID, data[0].TITLE, data[0].BODY, data[0].TIME_STAMP);
                     note_writer_modal.modal("hide");
@@ -199,10 +200,10 @@ $(() => {
             });
         else {
             $.ajax({
-                url: '../mino/users_table_handler.php',
+                url: 'responder.php',
                 method: 'POST',
                 dataType: "json",
-                data: { password: old_pass, newPassword: new_pass, operation_type: 2 },
+                data: { password: old_pass, newPassword: new_pass, action: 'update_password' },
                 success: (response) => {
                     if (response == 200) {
                         Swal.fire({
@@ -291,7 +292,10 @@ $(() => {
         switch (acd_ok_button.attr('data-action')) {
             case 'logout':
                 $.ajax({
-                    url: "../mino/deauth.php",
+                    url: "../mino/responder.php",
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { action: 'deauthenticate' },
                     success: () => {
                         window.location.href = "../index.php";
                     }
@@ -301,10 +305,10 @@ $(() => {
                 currentNoteTitle = note_viewer_title.val().trim();
                 currentNoteBody = note_viewer_body.val().trim();
                 $.ajax({
-                    url: "../mino/notes_table_handler.php",
+                    url: "responder.php",
                     type: "POST",
                     dataType: "json",
-                    data: { note_id: note_viewer_container.attr('note-id'), title: currentNoteTitle, body: currentNoteBody, operation_type: 2 },
+                    data: { note_id: note_viewer_container.attr('note-id'), title: currentNoteTitle, body: currentNoteBody, action: 'update_note' },
                     success: (data) => {
                         removeActiveNote();
                         disableSaveButton();
@@ -317,10 +321,10 @@ $(() => {
                 break;
             case 'delete_note':
                 $.ajax({
-                    url: "../mino/notes_table_handler.php",
+                    url: "responder.php",
                     type: "POST",
                     dataType: "json",
-                    data: { note_id: note_viewer_container.attr('note-id'), operation_type: 3 },
+                    data: { note_id: note_viewer_container.attr('note-id'), action: 'remove_note' },
                     success: () => {
                         removeActiveNote();
                         closeNoteViewer();
@@ -346,10 +350,10 @@ $(() => {
                 break;
             case 'remove_account':
                 $.ajax({
-                    url: '../mino/users_table_handler.php',
+                    url: 'responder.php',
                     type: 'POST',
                     dataType: 'json',
-                    data: { operation_type: 3 },
+                    data: { action: 'remove_account' },
                     success: (response) => {
                         if (response == 200) {
                             Swal.fire({
