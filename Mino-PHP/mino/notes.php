@@ -1,6 +1,8 @@
 <?php
 session_start();
-if ($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null)
+require_once '../mino/db_helper.php';
+$helper = DbHelper::getInstance();
+if (($_SESSION["s_user"] === null && $_SESSION["s_user_id"] === null) || !$helper->isUernameRegistered($_SESSION["s_user"]))
     header("Location: ../mino/login.php");
 ?>
 

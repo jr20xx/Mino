@@ -39,6 +39,14 @@ class DbHelper
         }
     }
 
+    public function isUernameRegistered($username)
+    {
+        $result = self::$pdo->prepare("SELECT * FROM mino.USERS WHERE USERNAME=:username;");
+        $result->bindParam(':username', $username);
+        $result->execute();
+        return $result->rowCount() >= 1;
+    }
+
     public function checkCredentials($username, $password)
     {
         try {
@@ -78,10 +86,7 @@ class DbHelper
     public function registerUser($username, $password)
     {
         try {
-            $result = self::$pdo->prepare("SELECT * FROM mino.USERS WHERE USERNAME=:username;");
-            $result->bindParam(':username', $username);
-            $result->execute();
-            if ($result->rowCount() >= 1)
+            if (self::$instance->isUernameRegistered($username))
                 return 400;
             else {
                 $result = self::$pdo->prepare("INSERT INTO USERS(USERNAME, PASSWORD) VALUES(:username, :password)");
